@@ -3,6 +3,7 @@ package com.javacourse.SpringMongo.config;
 import com.javacourse.SpringMongo.domain.Post;
 import com.javacourse.SpringMongo.domain.User;
 import com.javacourse.SpringMongo.dto.AuthorDTO;
+import com.javacourse.SpringMongo.dto.CommentDTO;
 import com.javacourse.SpringMongo.repository.PostRepository;
 import com.javacourse.SpringMongo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,9 +39,18 @@ public class Instantiation implements CommandLineRunner {
         Post post1 = new Post(null, sdf.parse("21/10/2003"), "Partiu Viagem", "Vou viajar para São Paulo, Abraços.", new AuthorDTO(maria));
         Post post2 = new Post(null, sdf.parse("21/10/2003"), "Bom dia!", "Acordei feliz hoje", new AuthorDTO(maria));
 
+        CommentDTO comment1 = new CommentDTO("Boa viagem mano!", sdf.parse("21/03/2018"), new AuthorDTO(alex));
+        CommentDTO comment2 = new CommentDTO("Aproveite", sdf.parse("22/03/2018"), new AuthorDTO(bob));
+        CommentDTO comment3 = new CommentDTO("Tenha um ótimo dia!", sdf.parse("23/03/2018"), new AuthorDTO(alex));
+
+        post1.getComments().addAll(Arrays.asList(comment1, comment2));
+        post2.getComments().addAll(Arrays.asList(comment3));
+
         postRepository.saveAll(Arrays.asList(post1, post2));
 
         maria.getPosts().addAll(Arrays.asList(post1, post2));
         userRepository.save(maria);
+
+
     }
 }
