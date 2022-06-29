@@ -1,7 +1,9 @@
 package com.javacourse.SpringMongo.services;
 
+
 import com.javacourse.SpringMongo.domain.User;
 import com.javacourse.SpringMongo.repository.UserRepository;
+import com.javacourse.SpringMongo.services.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,5 +17,13 @@ public class UserService {
 
     public List<User> findAll(){
         return userRepository.findAll();
+    }
+
+    public User findById(String id){
+        User user = userRepository.findById(id).orElse(null);
+        if (user == null){
+            throw new ObjectNotFoundException("Object not found");
+        }
+        return user;
     }
 }
